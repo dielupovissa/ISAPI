@@ -41,9 +41,9 @@ To get a local copy up and running follow these simple example steps.
 
 👤 **Author1**
 
-- GitHub: [@githubhandle](https://github.com/dielupovissa)
-- Twitter: [@twitterhandle](https://twitter.com/aivar_antonio)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/dielupovissa)
+- GitHub: [@dielupovissa](https://github.com/dielupovissa)
+- Twitter: [@aivar_antonio](https://twitter.com/aivar_antonio)
+- LinkedIn: [dielupovissa](https://linkedin.com/in/dielupovissa)
 
 👤 **Author2**
 
