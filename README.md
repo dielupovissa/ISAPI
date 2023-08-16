@@ -1,15 +1,14 @@
-![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Name
+# ISAPI Automation with Powershell
 
-> Description the project.
+> This project has the purpose to create many scripts as needed to automate all boring tasks on hikvivion surveillance system.
 
 
 ## Built With
 
-- Major languages
-- Frameworks
-- Technologies used
+- Major languages: Powershell 5
+- Frameworks: Microsoft Windows Powershell
+- Technologies used: Microsoft Windows Powershell
 
 ## Live Demo (if available)
 
@@ -42,9 +41,9 @@ To get a local copy up and running follow these simple example steps.
 
 👤 **Author1**
 
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
+- GitHub: [@githubhandle](https://github.com/dielupovissa)
+- Twitter: [@twitterhandle](https://twitter.com/aivar_antonio)
+- LinkedIn: [LinkedIn](https://linkedin.com/in/dielupovissa)
 
 👤 **Author2**
 
