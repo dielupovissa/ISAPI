@@ -1,0 +1,105 @@
+
+# Function to create a PSCredential object
+Function Get-Credentials {
+    param (
+        [string]$Username,
+        [string]$Password
+    )
+
+    $securePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+    return New-Object System.Management.Automation.PSCredential -ArgumentList $Username, $securePassword
+}
+
+# Function to check the reachability of an IP address
+Function Test-IpAddressReachability {
+    param (
+        [string]$IpAddress
+    )
+    
+    return Test-Connection -ComputerName $IpAddress -Count 2 -Quiet
+}
+
+# Function to make API calls and collect results
+Function Get-ApiResults {
+    param (
+        [string]$IpAddress,
+        [System.Management.Automation.PSCredential]$Credential
+    )
+
+    $urls = @{
+        IllegalLoginLock = "http://$IpAddress/ISAPI/Security/illegalLoginLock"
+        MotionDetection = "http://$IpAddress/ISAPI/System/Video/inputs/channels/1/MotionDetection"
+        GetUser = "http://$IpAddress/ISAPI/Security/users"
+    }
+
+    $results = [ordered]@{
+        IPAddress = $IpAddress
+        IllegalLogin = $null
+        EnableMotion = $null
+        DrawArea = $null
+        SensitivityLevel = $null
+        users =$null
+       
+    }
+
+    foreach ($key in $urls.Keys) {
+        try {
+            $res = Invoke-RestMethod -Method Get -Credential $Credential -Uri $urls[$key] -verbose
+
+            switch ($key) {
+                "IllegalLoginLock" {
+                    $results.IllegalLogin = $res.IllegalLoginLock.enabled
+                }
+                "MotionDetection" {
+                    $results.EnableMotion = $res.MotionDetection.enabled
+                    $results.DrawArea = $res.MotionDetection.MotionDetectionLayout.layout.gridMap
+                    $results.SensitivityLevel = $res.MotionDetection.MotionDetectionLayout.sensitivityLevel
+                }
+                "GetUser" {
+                    
+                    $us = $res.UserList.User|ForEach-Object{$_.username}
+                    $us|ForEach-Object{$results.users +="$_ "}
+                    
+                       
+                   
+
+                }
+            }
+        } catch {
+            
+                $errorMessage = "WebException occurred while making API call to $key on IP address ${IpAddress}: $_"
+                Write-Host $errorMessage
+                Add-Content -Path "errorlog.txt" -Value $IpAddress
+           
+        }
+    }
+
+    return $results
+}
+
+# Read IP addresses from a file
+$ipAddresses = Get-Content -Path .\ip.txt
+# Create an array to store results
+$results = @()
+
+# Loop through IP addresses and check reachability before making API calls
+foreach ($ip in $ipAddresses) {
+    if (Test-IpAddressReachability -IpAddress $ip) {
+        $credentials = Get-Credentials -Username "admin" -Password "*******"
+        $apiResults = Get-ApiResults -IpAddress $ip -Credential $credentials
+        $results += New-Object PSObject -Property $apiResults
+    }
+    else {
+        Write-Host "IP address $ip is not reachable."
+        Add-Content -Path "errorlog.txt" -Value $IpAddress
+
+    }
+}
+
+# Define the CSV file path
+$csvFilePath = "output.csv"
+
+# Export the results to a CSV file
+$results | Export-Csv -Path $csvFilePath -NoTypeInformation
+
+Write-Host "CSV file saved at $csvFilePath"
