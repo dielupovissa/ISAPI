@@ -1,0 +1,45 @@
+# Get the credential
+$cred = Get-Credential admin
+
+# Read IP addresses from the "ip2nd" file
+$ipAddresses = Get-Content -Path .\ip2nd.txt
+
+# Specify the IP address and URL
+
+
+# Define the XML data
+$xmlData = @"
+   <?xml version="1.0" encoding="UTF-8"?>
+<User>
+    <id>4</id>
+    <userName>bassaad</userName>
+    <loginPassword>*******</loginPassword>
+    <password>JohnLock</password>
+    <bondIpList>
+        <bondIp>
+            <id>1</id>
+            <ipAddress>0.0.0.0</ipAddress>
+            <ipv6Address>::</ipv6Address>
+        </bondIp>
+    </bondIpList>
+    <macAddress />
+    <userLevel>Operator</userLevel>
+    <attribute>
+        <inherent>false</inherent>
+    </attribute>
+</User>
+"@
+
+foreach($ipAddress in $ipAddresses){
+$url = "http://$ipAddress/ISAPI/Security/users/4"
+# Invoke the REST API to upload the XML data
+try {$response = Invoke-RestMethod -Method Put -Uri $url -Credential $cred -Body $xmlData -ContentType "application/xml" -Verbose}
+
+catch {
+        Write-Host "Error message: $($_.Exception.Message)"
+        Write-Host "Response body: $($_.Exception.Response.Content)"
+        }
+
+# Display the response
+$response.InnerXml
+}
