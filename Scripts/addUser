@@ -1,6 +1,6 @@
 <#
 .NOTES
-    Name: GetInfo.ps1 
+    Name: addUser.ps1 
     Author: Aivar Dielupovissa Manuel Antonio.
     Requires: PowerShell v5 or higher. 
     Version: 
