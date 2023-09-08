@@ -1,3 +1,20 @@
+<#
+.NOTES
+    Name: GetInfo.ps1 
+    Author: Aivar Dielupovissa Manuel Antonio.
+    Requires: PowerShell v5 or higher. 
+    Version: 
+     5.1.22621.1778   07-September-2023 - Initial Release, with export to CSV.
+.SYNOPSIS
+    Get info such as motion detection status, draw area, illegal login lock status, and the users on Hikvision IP cameras.
+.DESCRIPTION
+    This script makes usage of ISAPI a API of HIkvision to retrieve the information on cameras
+.PARAMETER ComputerName
+    The IPs camera(s) to be checked.
+.EXAMPLE
+    You have to change the ip2nd.txt file with your IPaddresses
+#>
+
 
 # Function to create a PSCredential object
 Function Get-Credentials {
