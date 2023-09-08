@@ -1,3 +1,20 @@
+<#
+.NOTES
+    Name: enMotDetGr.ps1 
+    Author: Aivar Dielupovissa Manuel Antonio.
+    Requires: PowerShell v5 or higher. 
+    Version: 
+     5.1.22621.1778   07-September-2023 - Initial Release, with export to CSV.
+.SYNOPSIS
+    enable motion detection on Hikvision IP cameras.
+.DESCRIPTION
+    This script makes use of ISAPI an API of HIkvision to enable motion detection on cameras
+.PARAMETER ComputerName
+    The IPs camera(s) to be checked.
+.EXAMPLE
+    You have to change the ip3nd.txt file with your addresses
+#>
+
 # Get the credential
 $cred = Get-Credential admin
 
